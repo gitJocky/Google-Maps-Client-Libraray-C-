@@ -1,0 +1,5 @@
+#!/bin/bash
+
+mkdir ~/cpp-netlib-build
+cd ~/cpp-netlib-build
+cmake -DCMAKE_BUILD_TYPE=Debug  -DCMAKE_C_COMPILER=gcc  -DCMAKE_CXX_COMPILER=g++  cpp-netlib

@@ -1,0 +1,4 @@
+#!/bin/bash
+cd external_libraries/boost_1_58_0
+sudo ./bootstrap.sh --prefix=./builder-test
+sudo ./b2 install

@@ -35,7 +35,7 @@ public:
     vector<vector<double>> get_coordinates(vector<string>);
     string get_place_id(string);
     vector<double> get_lat_lng(string);
-    void get_distance_ll(vector<vector<double>>);
+    void get_distance_and_time_ll(vector<vector<double>>);
     vector<double> get_distance_and_time(string,string);
     void set_api_key(string);
 private:

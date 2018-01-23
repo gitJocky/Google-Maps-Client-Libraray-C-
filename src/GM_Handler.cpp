@@ -108,7 +108,7 @@ string GM_Handler::get_place_id(string address_){
 
 }
 
-// generic get lat_lng from string address
+// returns lat_lng from string address
 vector<double> GM_Handler::get_lat_lng(string address_){
     data.erase(data.begin(),data.end());
     get_json(address_ ,api_key);
@@ -161,10 +161,65 @@ vector<double> GM_Handler::get_lat_lng(string address_){
     return coord;
 }
 
-// I will finish this one later
-void GM_Handler::get_distance_ll(vector<vector<double>> coordinates){
+// returns distance (meters) and time (seconds) between two coordinate points 
+void GM_Handler::get_distance_and_time_ll(vector<vector<double>> coordinates){
     data.erase(data.begin(),data.end());
     get_json_distance_ll(coordinates,api_key); 
+    istringstream iss(data);
+    string line;
+    int count(0);
+    int count1(0);
+    int check1(0);
+    int check2(0);
+    int check3(0);
+    int check4(0);
+    string distance;
+    string duration;
+    while (std::getline(iss, line)) {
+        string word;
+        istringstream is(line);
+            
+        while(is >> word) {
+            if(!word.compare("\"distance\"")){
+                check1 = 1;
+            }
+            if(check1){
+                if(!word.compare("\"value\"")){
+                    check2=1;
+                }
+                if(check2){
+                    ++count;
+                }
+                if(count==3){
+                    distance = word;
+                    check1=0;
+                }
+            }
+            
+            if(!word.compare("\"duration\"")){
+                check3 = 1;
+            }
+             if(check3){
+                if(!word.compare("\"value\"")){
+                    check4=1;
+                }
+                if(check4){
+                    ++count1;
+                }
+                if(count1==3){
+                    duration = word;
+                    check3=0;
+                }
+             }
+        }
+    }
+   
+    double distance_d = stod(distance);
+    double duration_d = stod(duration);
+    vector<double> return_data;
+    return_data.push_back(distance_d);
+    return_data.push_back(duration_d);
+    return return_data;
 }
 
 // input the place id of the origin and destination and it will spit out the distance and time it takes to travel from the origin to the destination
